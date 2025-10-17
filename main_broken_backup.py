@@ -35,12 +35,9 @@ app = FastAPI(title="Project Z — Secure API", version="0.3.0")
 # minimal CORS (add your real frontend origin(s) later)
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=[
-"http://127.0.0.1:8010",
-   "https://livestock-lil-organization-webster.trycloudflare.com",
-],   # demo: allow any origin (we’ll tighten later)
+    allow_origins=["http://127.0.0.1:8000", "http://localhost:8000"],
     allow_credentials=True,
-    allow_methods=["GET","POST"],
+    allow_methods=["GET", "POST"],
     allow_headers=["*"],
 )
 

@@ -1,0 +1,5 @@
+projectz.db
+venv
+uvicorn.out
+exports/
+__pycache__/
