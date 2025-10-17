@@ -1,0 +1,6 @@
+date,description,amount,type
+2025-10-01,Online sale,320,credit
+2025-10-02,Inventory purchase,120,debit
+2025-10-03,Marketing ad,60,debit
+2025-10-04,Online sale,400,credit
+2025-10-05,Utility bill,80,debit

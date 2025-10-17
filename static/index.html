@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Project Z — Business Brain</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="/static/styles.css" />
+</head>
+<body>
+  <div class="wrap">
+    <h1>Project Z</h1>
+    <p class="sub">Upload CSV → Analyze → Ask → Daily Report</p>
+
+    <section class="card">
+      <h2>1) Upload your transactions.csv</h2>
+      <input id="file" type="file" accept=".csv" />
+      <button id="upload">Upload CSV</button>
+      <div id="uploadStatus" class="muted"></div>
+    </section>
+
+    <section class="card">
+      <h2>2) Run analysis</h2>
+      <button id="analyze">Analyze Now</button>
+      <pre id="analysis" class="box"></pre>
+    </section>
+
+    <section class="card">
+      <h2>3) Ask a question</h2>
+      <input id="q" type="text" placeholder="How can I increase cashflow next month?" />
+      <button id="ask">Ask</button>
+      <pre id="answer" class="box"></pre>
+    </section>
+
+    <section class="card">
+      <h2>4) Daily report</h2>
+      <button id="report">Generate Report</button>
+      <pre id="reportOut" class="box"></pre>
+    </section>
+
+    <footer class="muted">Running locally — provider: <span id="provider">?</span>, model: <span id="model">?</span></footer>
+  </div>
+  <script src="/static/app.js"></script>
+</body>
+</html>

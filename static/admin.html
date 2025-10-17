@@ -1,0 +1,195 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Project Z • Admin Console</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    body{margin:0;background:#0b0f14;color:#e8edf2;font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif}
+    .wrap{max-width:980px;margin:24px auto;padding:0 16px}
+    h1{margin:0 0 6px;font-size:26px} .muted{color:#93a4b8}
+    .row{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0}
+    input,button{border-radius:10px;border:1px solid #243041;background:#0e141b;color:#e8edf2}
+    input{padding:10px 12px;min-width:260px} button{padding:10px 14px;border:0;background:#2563eb;cursor:pointer}
+    button:hover{filter:brightness(1.08)} pre{white-space:pre-wrap}
+    .card{background:#121821;border:1px solid #1f2a37;border-radius:14px;padding:14px;margin:14px 0}
+    .box{background:#0e141b;border:1px solid #1f2a37;border-radius:10px;padding:12px;min-height:70px}
+    .grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+    @media (max-width:800px){.grid{grid-template-columns:1fr}}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <h1>Project Z — Admin Console</h1>
+    <div class="muted">Local API tester for /api/* routes</div>
+
+    <div class="card">
+      <div class="row">
+        <input id="key" placeholder="Paste X-API-Key" />
+        <button onclick="saveKey()">Save Key</button>
+        <button onclick="health()">Health</button>
+      </div>
+      <div id="healthOut" class="muted"></div>
+    </div>
+
+    <div class="card">
+      <div class="row">
+        <button onclick="callAnalyze()">Analyze</button>
+        <input id="q" placeholder="Ask a question e.g. how to grow profit next week?" style="flex:1" />
+        <button onclick="callSuggest()">Suggest</button>
+        <button onclick="callReport()">Daily Report</button>
+        <button onclick="downloadReport()">Download Report</button>
+      </div>
+      <div class="grid">
+        <div>
+          <div class="muted">Analysis</div>
+          <pre id="analyzeOut" class="box"></pre>
+        </div>
+        <div>
+          <div class="muted">Suggestion</div>
+          <pre id="suggestOut" class="box"></pre>
+        </div>
+      </div>
+      <div>
+        <div class="muted">Report</div>
+        <pre id="reportOut" class="box"></pre>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="row">
+        <button onclick="loadHistory()">History (10)</button>
+        <button onclick="loadMetrics()">Metrics (30d)</button>
+        <button onclick="loadSeries()">Timeseries (30d)</button>
+      </div>
+      <div class="grid">
+        <div>
+          <div class="muted">History</div>
+          <pre id="historyOut" class="box"></pre>
+        </div>
+        <div>
+          <div class="muted">Metrics</div>
+          <pre id="metricsOut" class="box"></pre>
+        </div>
+      </div>
+      <div style="margin-top:10px">
+        <div class="muted">Timeseries</div>
+        <pre id="seriesOut" class="box"></pre>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="muted">Upload CSV (overwrites transactions.csv)</div>
+      <div class="row">
+        <input type="file" id="csv" accept=".csv" />
+        <button onclick="uploadCSV()">Upload</button>
+      </div>
+      <div id="uploadOut" class="muted"></div>
+    </div>
+
+    <div class="muted" id="footer"></div>
+  </div>
+
+<script>
+const base = location.origin; // http://127.0.0.1:8010
+let apiKey = localStorage.getItem('pz_key') || '';
+document.getElementById('key').value = apiKey;
+
+function saveKey(){ apiKey = document.getElementById('key').value.trim(); localStorage.setItem('pz_key', apiKey); toast('Key saved'); }
+function hdr(){ return apiKey ? {'X-API-Key':apiKey} : {}; }
+function toast(t){ document.getElementById('footer').textContent = t; setTimeout(()=>{document.getElementById('footer').textContent='';},3000); }
+
+async function health(){
+  try {
+    const r = await fetch(`${base}/health`);
+    const j = await r.json();
+    document.getElementById('healthOut').textContent = JSON.stringify(j,null,2);
+  } catch(e){ document.getElementById('healthOut').textContent = e.message; }
+}
+
+async function callAnalyze(){
+  document.getElementById('analyzeOut').textContent='...';
+  try{
+    const r = await fetch(`${base}/api/analyze`, {headers: hdr()});
+    const j = await r.json();
+    document.getElementById('analyzeOut').textContent = JSON.stringify(j,null,2);
+  }catch(e){ document.getElementById('analyzeOut').textContent = e.message; }
+}
+
+async function callSuggest(){
+  const q = document.getElementById('q').value.trim();
+  if(!q){ toast('Type a question'); return; }
+  document.getElementById('suggestOut').textContent='...';
+  try{
+    const url = `${base}/api/suggest?q=${encodeURIComponent(q)}`;
+    const r = await fetch(url, {headers: hdr()});
+    const j = await r.json();
+    document.getElementById('suggestOut').textContent = JSON.stringify(j,null,2);
+  }catch(e){ document.getElementById('suggestOut').textContent = e.message; }
+}
+
+async function callReport(){
+  document.getElementById('reportOut').textContent='...';
+  try{
+    const r = await fetch(`${base}/api/report`, {headers: hdr()});
+    const j = await r.json();
+    document.getElementById('reportOut').textContent = JSON.stringify(j,null,2);
+  }catch(e){ document.getElementById('reportOut').textContent = e.message; }
+}
+
+async function loadHistory(){
+  document.getElementById('historyOut').textContent='...';
+  try{
+    const r = await fetch(`${base}/api/history?limit=10`, {headers: hdr()});
+    const j = await r.json();
+    document.getElementById('historyOut').textContent = JSON.stringify(j,null,2);
+  }catch(e){ document.getElementById('historyOut').textContent = e.message; }
+}
+
+async function loadMetrics(){
+  document.getElementById('metricsOut').textContent='...';
+  try{
+    const r = await fetch(`${base}/api/metrics?days=30`, {headers: hdr()});
+    const j = await r.json();
+    document.getElementById('metricsOut').textContent = JSON.stringify(j,null,2);
+  }catch(e){ document.getElementById('metricsOut').textContent = e.message; }
+}
+
+async function loadSeries(){
+  document.getElementById('seriesOut').textContent='...';
+  try{
+    const r = await fetch(`${base}/api/timeseries?days=30`, {headers: hdr()});
+    const j = await r.json();
+    document.getElementById('seriesOut').textContent = JSON.stringify(j,null,2);
+  }catch(e){ document.getElementById('seriesOut').textContent = e.message; }
+}
+
+async function downloadReport(){
+  try{
+    const r = await fetch(`${base}/api/report_file`, {headers: hdr()});
+    if(!r.ok){ document.getElementById('reportOut').textContent = await r.text(); return; }
+    const blob = await r.blob();
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = r.headers.get('Content-Disposition')?.match(/filename="?([^"]+)"?$/)?.[1] || 'report.txt';
+    document.body.appendChild(a); a.click(); a.remove();
+    toast('Downloaded report file');
+  }catch(e){ document.getElementById('reportOut').textContent = e.message; }
+}
+
+async function uploadCSV(){
+  const inp = document.getElementById('csv');
+  if(!inp.files.length){ toast('Choose a CSV first'); return; }
+  const fd = new FormData();
+  fd.append('file', inp.files[0]);
+  try{
+    const r = await fetch(`${base}/api/upload_csv`, {method:'POST', headers: hdr(), body: fd});
+    const j = await r.json();
+    document.getElementById('uploadOut').textContent = JSON.stringify(j,null,2);
+  }catch(e){ document.getElementById('uploadOut').textContent = e.message; }
+}
+
+health();
+</script>
+</body>
+</html>
