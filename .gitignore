@@ -1,15 +1,42 @@
-HEAD
-projectz.db
-venv
-uvicorn.out
-exports/
-__pycache__/
 .DS_Store
-venv/
 __pycache__/
-frontend/node_modules/
-logs/
+*.py[cod]
+*.egg-info/
 .env
-*.db-wal
-*.db-shm
-7f3b296 (Add common files and directories to .gitignore)
+.venv/
+venv/
+.projectz_env
+
+# Local sqlite & variants (never commit DBs)
+projectz.db
+projectz.db-*
+*.sqlite
+*.sqlite3
+
+# Editor / OS
+.vscode/
+.idea/
+*.iml
+
+# ----- Node / Vite (frontend) -----
+node_modules/
+frontend/node_modules/
+dist/
+frontend/dist/
+*.log
+npm-debug.log*
+pnpm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# ----- Fly.io / Docker -----
+.fly/
+.flyrc
+
+# build artifacts & local exports
+exports/
+static_old/
+
+# accidental backups
+*.save
+*backup*.py
