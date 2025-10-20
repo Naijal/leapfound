@@ -1,5 +1,15 @@
+HEAD
 projectz.db
 venv
 uvicorn.out
 exports/
 __pycache__/
+.DS_Store
+venv/
+__pycache__/
+frontend/node_modules/
+logs/
+.env
+*.db-wal
+*.db-shm
+7f3b296 (Add common files and directories to .gitignore)
