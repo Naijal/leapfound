@@ -1,6 +1,7 @@
 {
   "files": [],
   "references": [
+<<<<<<< HEAD
     {
       "path": "./tsconfig.app.json"
     },
@@ -12,3 +13,9 @@
     "jsx": "react-jsx"
   }
 }
+=======
+    { "path": "./tsconfig.app.json" },
+    { "path": "./tsconfig.node.json" }
+  ]
+}
+>>>>>>> b24514b (Initial Leapfound (backend FastAPI + frontend Vite))

@@ -3,11 +3,12 @@ __pycache__/
 *.py[cod]
 *.egg-info/
 .env
+.env.*
 .venv/
 venv/
 .projectz_env
 
-# Local sqlite & variants (never commit DBs)
+# Local sqlite & variants
 projectz.db
 projectz.db-*
 *.sqlite
@@ -37,6 +38,11 @@ yarn-error.log*
 exports/
 static_old/
 
-# accidental backups
-*.save
-*backup*.py
+# logs
+logs/
+
+.env
+frontend/.env
+logs/
+node_modules/
+frontend/node_modules/
