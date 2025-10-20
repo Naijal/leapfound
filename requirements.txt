@@ -1,0 +1,12 @@
+fastapi
+uvicorn
+pandas
+python-dotenv
+requests
+sqlmodel
+sqlalchemy
+aiosqlite
+python-multipart
+reportlab
+eval-type-backport
+typing_extensions
