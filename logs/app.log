@@ -267,3 +267,5 @@ FROM txn]
 2025-10-20 01:06:32,187 INFO OPTIONS /api/analyze 400 127.0.0.1 none
 2025-10-20 01:06:36,036 INFO OPTIONS /api/analyze 400 127.0.0.1 none
 2025-10-20 01:06:39,195 INFO OPTIONS /api/suggest 400 127.0.0.1 none
+2025-10-20 17:36:26,594 INFO GET /apple-touch-icon-precomposed.png 404 127.0.0.1 none
+2025-10-20 17:36:26,655 INFO GET /apple-touch-icon.png 404 127.0.0.1 none

@@ -1,0 +1,37 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root { color-scheme: dark; }
+
+html, body, #root {
+  height: 100%;
+  background:
+    radial-gradient(1200px 800px at 20% -10%, rgba(99,102,241,.15), transparent 60%),
+    radial-gradient(1000px 700px at 80% 10%, rgba(56,189,248,.12), transparent 60%),
+    #030712;
+}
+
+.glass {
+  background: linear-gradient(180deg, rgba(255,255,255,.08), rgba(255,255,255,.02));
+  border: 1px solid rgba(255,255,255,.08);
+  backdrop-filter: blur(18px);
+}
+
+.shimmer { position: relative; overflow: hidden; }
+.shimmer::after {
+  content: ""; position: absolute; inset: 0; transform: translateX(-100%);
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,.08), transparent);
+  animation: shimmer 1.6s infinite;
+}
+@keyframes shimmer { 100% { transform: translateX(100%); } }
+
+body { color: #e5e7eb; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
+
+.blob { position:absolute; width:60vmax; height:60vmax; border-radius:50%; opacity:.35; mix-blend-mode:screen; will-change:transform; }
+.blob-a { left:-10vmax; top:-10vmax; background:radial-gradient(circle at 30% 30%, rgba(99,102,241,.9), rgba(99,102,241,0) 60%); animation:floatA 14s ease-in-out infinite; }
+.blob-b { right:-15vmax; top:-5vmax; background:radial-gradient(circle at 60% 40%, rgba(56,189,248,.9), rgba(56,189,248,0) 60%); animation:floatB 18s ease-in-out infinite; }
+.blob-c { left:10vmax; bottom:-15vmax; background:radial-gradient(circle at 40% 60%, rgba(34,197,94,.9), rgba(34,197,94,0) 60%); animation:floatC 20s ease-in-out infinite; }
+@keyframes floatA { 0%,100%{transform:translate(0,0) scale(1)} 50%{transform:translate(6vmax,3vmax) scale(1.06)} }
+@keyframes floatB { 0%,100%{transform:translate(0,0) scale(1)} 50%{transform:translate(-5vmax,4vmax) scale(1.05)} }
+@keyframes floatC { 0%,100%{transform:translate(0,0) scale(1)} 50%{transform:translate(4vmax,-6vmax) scale(1.08)} }
